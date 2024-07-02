@@ -1,0 +1,19 @@
+*.pt
+*.zip
+*.npy
+*pkl
+
+self_inspection_scripts/
+.vscode/
+James_dataset_zips/
+cleaned_dataset/
+entropy_based_datasets/
+inference_data/
+reproduce_previous_works/*
+!reproduce_previous_works/smart4.5/
+
+# reproduce_previous_works/smart4.5/dataloader_inspect.ipynb
+# reproduce_previous_works/smart4.5/find_pos_weight_vector.ipynb
+# reproduce_previous_works/smart4.5/debug_rank1.ipynb
+# reproduce_previous_works/smart4.5/notebooks/dataset_building/FP_on_bits_pickles/
+# reproduce_previous_works/smart4.5/reproducing_deepsat/
