@@ -5,22 +5,6 @@ import tracemalloc
 import logging
 from collections import defaultdict
 
-# ### START debugging stuff
-# # Setup logging
-# logging.basicConfig(filename='debug.log', level=logging.DEBUG)
-
-# # Start tracing memory allocations
-# tracemalloc.start()
-
-# def check_memory(snapshot, key_type='lineno'):
-#     top_stats = snapshot.statistics(key_type)
-#     logging.debug("[Top 10]")
-#     for stat in top_stats[:10]:
-#         logging.debug(stat)
-        
-# ### END debugging stuff
-
-
 
 def get_canonical_smiles(datum):
     """
@@ -35,6 +19,7 @@ def get_canonical_smiles(datum):
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             raise Exception("Invalid SMILES string")
+        Chem.RemoveStereochemistry( mol ) 
         canonical_smiles = Chem.MolToSmiles(mol, canonical=True)
         return canonical_smiles
     except:
@@ -126,6 +111,7 @@ if __name__ == "__main__":
             
     id_oneD_only_compound = 0
     collision = 0
+    added_smiles = set()
     # for f in tqdm.tqdm(npmrd_files_txt_only):
     # print("start adding 1D NMR")
     for i, f in enumerate(tqdm.tqdm(sorted(npmrd_files_txt_only))):
@@ -139,6 +125,9 @@ if __name__ == "__main__":
         
         smile =  NP_to_smiles[f.split("_")[0]]
         if smile: # sometimes it may just be None
+            if smile in added_smiles:
+                continue
+            added_smiles.add(smile)
             
             c_tensor, h_tensor = get_nmr_tensors(os.path.join(NP_MRD_FILES_dir, f))
             if smile not in canonical_smiles_to_path: # we do not have 2D NMR for this compound
@@ -174,8 +163,10 @@ if __name__ == "__main__":
         
     # save the added chemical names and smiles
     for split in ["train", "val", "test"]:
+        os.makedirs(f'/workspace/OneD_Only_Dataset/{split}/Chemical', exist_ok=True)
+        os.makedirs(f'/workspace/OneD_Only_Dataset/{split}/SMILES', exist_ok=True)
         name_mapping, smiles_mapping = oneD_only_name_and_smiles_mappings[split]
-        with open(f'/workspace/OneD_Only_Dataset/{split}/Chemical/index.pkl', 'w') as f:
+        with open(f'/workspace/OneD_Only_Dataset/{split}/Chemical/index.pkl', 'wb') as f:
             pickle.dump(name_mapping, f)
-        with open(f'/workspace/OneD_Only_Dataset/{split}/SMILES/index.pkl', 'w') as f:
+        with open(f'/workspace/OneD_Only_Dataset/{split}/SMILES/index.pkl', 'wb') as f:
             pickle.dump(smiles_mapping, f)
