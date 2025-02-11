@@ -13,7 +13,7 @@ from typing import List
 
 
 # this pickle file is created by MorganFP_prediction/task_scripts/create_1D2D_dataset.ipynb
-dataset_metadata = pickle.load(open("/root/data/Combine1D2D_dataset/dataset_metadata.pkl", 'rb')) 
+dataset_metadata = pickle.load(open("/root/gurusmart/data/Combine1D2D_dataset/dataset_metadata.pkl", 'rb')) 
 data_split_dict = dataset_metadata['data_split_dict']
 
 def smiles_to_inchi_key(smile):
@@ -22,7 +22,7 @@ def smiles_to_inchi_key(smile):
     inchi_key = Chem.inchi.MolToInchiKey(molecule)
     return inchi_key
 
-with open('/root/MorganFP_prediction/James_dataset_zips/SMART_dataset_v2_new.pkl', 'rb') as file:
+with open('/root/gurusmart/MorganFP_prediction/James_dataset_zips/SMART_dataset_v2_new.pkl', 'rb') as file:
     smart_v2_data = pickle.load(file)
 hyun_smiles = [d['SMILES'] for d in smart_v2_data.values()]
 hyun_HSQC = [d['HSQC'] for d in smart_v2_data.values()]
@@ -55,7 +55,7 @@ async def save_multiple_tensors(tensors: List[torch.Tensor], file_names: List[st
             await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
-    dataset_dir = '/root/data/Combine1D2D_dataset'
+    dataset_dir = '/root/gurusmart/data/Combine1D2D_dataset'
     for split in ['train', 'val', 'test']:
         for spectrum in ['HSQC', "one_D", "hyun_FP", "R2_FP"]
         os.makedirs()

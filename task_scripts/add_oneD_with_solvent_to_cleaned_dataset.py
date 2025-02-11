@@ -36,14 +36,14 @@ def get_nmr_tensors(file_path):
     return c_tensor, h_tensor
 
 # Load the NP-MRD files and the mapping from NP to InChI
-saved_data=pickle.load(open(f"/root/MorganFP_prediction/task_scripts/inchi_mapping.pkl", 'rb'))
+saved_data=pickle.load(open(f"/root/gurusmart/MorganFP_prediction/task_scripts/inchi_mapping.pkl", 'rb'))
 NP_to_inchi = saved_data['NP_to_inchi']
 inchi_to_file_path = saved_data['inchi_to_file_path']
 
 for split in ["test", "train", "val"]:
     os.makedirs(f'/workspace/SMILES_dataset/{split}/detailed_oneD_NMR/', exist_ok=True)
 
-NP_MRD_FILES_dir = '/root/data/NP-MRD-dataset/NP-MRD-shift-assignments'
+NP_MRD_FILES_dir = '/root/gurusmart/data/NP-MRD-dataset/NP-MRD-shift-assignments'
 npmrd_files_txt_only = sorted(os.listdir(NP_MRD_FILES_dir))
 
 

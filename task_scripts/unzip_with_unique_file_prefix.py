@@ -4,8 +4,8 @@ import zipfile
 import os
 import tqdm
 
-zip_path = "/root/data/shift_assignment.zip"
-extract_path = "/root/data/NP-MRD-dataset/NP-MRD-shift-assignments"
+zip_path = "/root/gurusmart/data/shift_assignment.zip"
+extract_path = "/root/gurusmart/data/NP-MRD-dataset/NP-MRD-shift-assignments"
 
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
     extracted_prefixes = set()
